@@ -153,6 +153,9 @@ def o_wins(which: str) -> None:
     draw_winning_line(which)
 
 def cat_wins() -> None:
+    '''
+    show that it's a tie game
+    '''
     STUDENT_TURTLE.penup()
     STUDENT_TURTLE.goto(0, 0)
     STUDENT_TURTLE.setheading(90)
