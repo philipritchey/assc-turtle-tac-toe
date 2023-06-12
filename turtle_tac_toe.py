@@ -2,6 +2,12 @@
 play tic-tac-tow with a turtle
 '''
 
+########################################
+#
+# DO NOT CHANGE THIS CODE
+#
+########################################
+
 from turtle import Turtle, Screen, done
 from typing import Tuple
 from my_functions import announce_winner_is_o, announce_winner_is_x, make_an_o, make_an_x,\
