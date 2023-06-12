@@ -4,7 +4,8 @@ play tic-tac-tow with a turtle
 
 from turtle import Turtle, Screen, done
 from typing import Tuple
-from my_functions import announce_winner_is_o, announce_winner_is_x, make_an_o, make_an_x, make_a_cat, prompt_for_new_game
+from my_functions import announce_winner_is_o, announce_winner_is_x, make_an_o, make_an_x,\
+    make_a_cat, prompt_for_new_game
 
 def draw_line(x_1: float, y_1: float, x_2: float, y_2: float) -> None:
     '''
@@ -119,7 +120,7 @@ def draw_winning_line(which: str) -> None:
     '''
     draw the winning line through the 3-in-a-row
     '''
-    TURTLE.pensize(CELL_WIDTH / 10)
+    TURTLE.pensize(int(CELL_WIDTH / 10))
     if which[0] == ROW:
         x_coord, y_coord = row_start(int(which[1]))
         draw_line(x_coord, y_coord, x_coord + BOARD_WIDTH, y_coord)
@@ -288,7 +289,7 @@ def make_mark(mark: str, x_coord: float, y_coord: float) -> None:
 
             # reset board
             for row in BOARD_STATE:
-                row[:] =  [' ', ' ', ' ']
+                row[:] = [' ', ' ', ' ']
 
             # restart game
             draw_board()
