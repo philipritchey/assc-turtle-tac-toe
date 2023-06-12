@@ -2,13 +2,9 @@
 play tic-tac-tow with a turtle
 '''
 
-# TODO(pcr): announce winner
-# TODO(pcr): play again or quit dialog
-# TODO(pcr): P2 = AI ?
-
 from turtle import Turtle, Screen, done
 from typing import Tuple
-from my_functions import make_an_o, make_an_x, make_a_cat
+from my_functions import announce_winner_is_o, announce_winner_is_x, make_an_o, make_an_x, make_a_cat, prompt_for_new_game
 
 def draw_line(x_1: float, y_1: float, x_2: float, y_2: float) -> None:
     '''
@@ -123,7 +119,6 @@ def draw_winning_line(which: str) -> None:
     '''
     draw the winning line through the 3-in-a-row
     '''
-    SCREEN.onscreenclick(do_nothing)
     TURTLE.pensize(CELL_WIDTH / 10)
     if which[0] == ROW:
         x_coord, y_coord = row_start(int(which[1]))
@@ -142,20 +137,34 @@ def x_wins(which: str) -> None:
     '''
     show that 'X' wins
     '''
+    SCREEN.onscreenclick(do_nothing)
     TURTLE.pencolor('red')
     draw_winning_line(which)
+
+    STUDENT_TURTLE.penup()
+    STUDENT_TURTLE.goto(0, 0)
+    STUDENT_TURTLE.setheading(90)
+    announce_winner_is_x(STUDENT_TURTLE, CELL_WIDTH)
 
 def o_wins(which: str) -> None:
     '''
     show that 'O' wins
     '''
+    SCREEN.onscreenclick(do_nothing)
     TURTLE.pencolor('green')
     draw_winning_line(which)
+
+    STUDENT_TURTLE.penup()
+    STUDENT_TURTLE.goto(0, 0)
+    STUDENT_TURTLE.setheading(90)
+    announce_winner_is_o(STUDENT_TURTLE, CELL_WIDTH)
 
 def cat_wins() -> None:
     '''
     show that it's a tie game
     '''
+    SCREEN.onscreenclick(do_nothing)
+
     STUDENT_TURTLE.penup()
     STUDENT_TURTLE.goto(0, 0)
     STUDENT_TURTLE.setheading(90)
@@ -265,6 +274,30 @@ def make_mark(mark: str, x_coord: float, y_coord: float) -> None:
         game_over = True
         cat_wins()
 
+    if game_over:
+        STUDENT_TURTLE.penup()
+        STUDENT_TURTLE.goto(0, 0)
+        STUDENT_TURTLE.setheading(90)
+        answer = prompt_for_new_game(SCREEN, STUDENT_TURTLE, CELL_WIDTH)
+        if answer == 'yes':
+            # reset turtles
+            TURTLE.reset()
+            STUDENT_TURTLE.reset()
+            TURTLE.speed(0)
+            STUDENT_TURTLE.speed(TURTLE_SPEED)
+
+            # reset board
+            for row in BOARD_STATE:
+                row[:] =  [' ', ' ', ' ']
+
+            # restart game
+            draw_board()
+            SCREEN.onscreenclick(draw_x)
+        else:
+            SCREEN.bye()
+
+
+
 def draw_x(x_coord: float, y_coord: float) -> None:
     '''
     draw an 'X' in the cell which was clicked
@@ -313,6 +346,7 @@ if __name__ == '__main__':
 
     # the screen object
     SCREEN = Screen()
+    SCREEN.setup(5*CELL_WIDTH, 5*CELL_WIDTH)
 
     # constants to make the code more readable
     X_SYMBOL = 'x'
